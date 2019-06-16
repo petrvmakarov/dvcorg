@@ -39,6 +39,17 @@ class Helper {
   }
 }
 
+function includes(array, folder) {
+  let flag = false
+  array.map(elem => {
+    const path = Helper.getFullPath(folder, elem)
+    if (path === self.props.currentFile) {
+      flag = true
+    }
+  })
+  return flag
+}
+
 export default class SidebarMenu extends React.Component {
   constructor(props) {
     super(props)
@@ -237,16 +248,6 @@ files
 
   render = () => {
     let self = this
-    function includes(array, folder) {
-      let flag = false
-      array.map(elem => {
-        const path = Helper.getFullPath(folder, elem)
-        if (path === self.props.currentFile) {
-          flag = true
-        }
-      })
-      return flag
-    }
     return !this.state.loading ? (
       <Menu id="sidebar-menu">
         <Sections>
