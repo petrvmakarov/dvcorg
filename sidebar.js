@@ -30,7 +30,7 @@ class Helper {
   }
 
   static getFullPath(folder, file) {
-    return `${folder}${FOLDER_SEPARATOR}${file}`
+    return [folder, file].join(FOLDER_SEPARATOR)
   }
 
   static fillFilesArray(file, arr) {
