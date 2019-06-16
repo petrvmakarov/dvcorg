@@ -244,7 +244,7 @@ files
 
   renderLoadingMenu = () => {
     return (
-      <Menu id={SIDE_BAR_HTML_ID }>
+      <Menu id={SIDE_BAR_HTML_ID}>
         <div style={PreloaderContainer}>
           <Preloader size={24} />
         </div>
