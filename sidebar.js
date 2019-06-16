@@ -113,34 +113,34 @@ files
 
   renderSection = (section, sectionIndex) => {
     const { currentSection, getLinkHref, onSectionSelect } = this.props
-      const isSectionActive = currentSection === sectionIndex
-      let sectionTitle = section.name
-        ? section.name
-        : this.getName(
-            section.labels,
-            section.files,
-            section.folder,
-            section.indexFile
-          )
-      return (
-        <div key={sectionIndex}>
-          <SectionLink
-            level={1}
-            href={getLinkHref(sectionIndex)}
-            onClick={e => onSectionSelect(e, sectionIndex)}
-            className={isSectionActive ? 'docSearch-lvl0' : ''}
-            isActive={isSectionActive}
-          >
-            {sectionTitle}
-          </SectionLink>
-          <Collapse data-open={isSectionActive ? 'true' : 'false'}>
-            {section.files &&
-              section.files.map((file, fileIndex) => {
-                return this.renderSectionFile(sectionIndex, file, fileIndex, section)
-              })}
-          </Collapse>
-        </div>
-      )
+    const isSectionActive = currentSection === sectionIndex
+    let sectionTitle = section.name
+      ? section.name
+      : this.getName(
+          section.labels,
+          section.files,
+          section.folder,
+          section.indexFile
+        )
+    return (
+      <div key={sectionIndex}>
+        <SectionLink
+          level={1}
+          href={getLinkHref(sectionIndex)}
+          onClick={e => onSectionSelect(e, sectionIndex)}
+          className={isSectionActive ? 'docSearch-lvl0' : ''}
+          isActive={isSectionActive}
+        >
+          {sectionTitle}
+        </SectionLink>
+        <Collapse data-open={isSectionActive ? 'true' : 'false'}>
+          {section.files &&
+            section.files.map((file, fileIndex) => {
+              return this.renderSectionFile(sectionIndex, file, fileIndex, section)
+            })}
+        </Collapse>
+      </div>
+    )
   }
 
   renderSectionFile = (sidebarIndex, file, fileIndex, section) => {
