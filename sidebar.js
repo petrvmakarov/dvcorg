@@ -241,22 +241,8 @@ files
     
   }
 
-  render = () => {
-    let self = this
-    return !this.state.loading ? (
-      <Menu id="sidebar-menu">
-        <Sections>
-          <SectionLinks>
-            {this.renderSections()}
-          </SectionLinks>
-        </Sections>
-        <OnlyDesktop>
-          <SideFooter>
-            <DownloadButton openTop />
-          </SideFooter>
-        </OnlyDesktop>
-      </Menu>
-    ) : (
+  renderLoadingMenu = () => {
+    return (
       <Menu id="sidebar-menu">
         <div
           style={{
@@ -271,6 +257,29 @@ files
         </div>
       </Menu>
     )
+  } 
+  
+  renderLoadedMenu = () => {
+    return (
+      <Menu id="sidebar-menu">
+        <Sections>
+          <SectionLinks>
+            {this.renderSections()}
+          </SectionLinks>
+        </Sections>
+        <OnlyDesktop>
+          <SideFooter>
+            <DownloadButton openTop />
+          </SideFooter>
+        </OnlyDesktop>
+      </Menu>
+    )
+  }
+
+  render = () => {
+    let self = this
+    const { loading } = this.state
+    return loading ? this.renderLoadingMenu() : this.renderLoadedMenu()
   }
 }
 const Menu = styled.div`
