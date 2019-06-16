@@ -97,7 +97,7 @@ files
     if (labels && labels[indexFile]) {
       name = labels[indexFile]
     } else {
-      const path = Hepler.getFullPath(folder, indexFile)
+      const path = Helper.getFullPath(folder, indexFile)
       name = this.state.names[path]
     }
     return name
@@ -111,12 +111,49 @@ files
     }
   }
 
+  renderSubgroup = (sidebarIndex, section, file, fileIndex, subFile, subIndex) => {
+      const { getLinkHref, onFileSelect, currentFile } = this.props
+      const fileFolder = file.folder ? file.folder : section.folder
+      const subFilePath = Helper.getFullPath(fileFolder, subFile)
+      return (
+        <div key={`file-${fileIndex}-${subIndex}`}>
+          <SectionLink
+            level={3}
+            href={getLinkHref(
+              sidebarIndex,
+              subFile,
+              fileIndex
+            )}
+            onClick={e =>
+              onFileSelect(
+                e,
+                sidebarIndex,
+                subFile,
+                fileIndex
+              )
+            }
+            isActive={currentFile === subFilePath}
+          >
+            {this.getName(
+              file.labels,
+              file.files,
+              file.folder
+                ? file.folder
+                : section.folder,
+              subFile
+            )}
+          </SectionLink>
+        </div>
+      )
+    
+  }
+
   render() {
     let self = this
     function includes(array, folder) {
       let flag = false
       array.map(elem => {
-        const path = Hepler.getFullPath(folder, elem)
+        const path = Helper.getFullPath(folder, elem)
         if (path === self.props.currentFile) {
           flag = true
         }
@@ -160,8 +197,8 @@ files
                     {section.files &&
                       section.files.map((file, fileIndex) => {
                         const subgroup = file.files ? file.files : null
-                        const folderPath = Hepler.getFullPath(file.folder, file.indexFile)
-                        const sectionPath = Hepler.getFullPath(section.folder, file)
+                        const folderPath = Helper.getFullPath(file.folder, file.indexFile)
+                        const sectionPath = Helper.getFullPath(section.folder, file)
                         let compare = file.folder && file.indexFile ? folderPath : sectionPath
                         const isFileActive = currentFile === compare
                         let FileOrSubsectionTitle = file.name
@@ -199,39 +236,8 @@ files
                                     : 'false'
                                 }
                               >
-                                {subgroup.map((file2, subIndex) => {
-                                  const fileFolder = file.folder ? file.folder : section.folder
-                                  const file2Path = Helper.getFullPath(fileFolder, file2)
-                                  return (
-                                    <div key={`file-${fileIndex}-${subIndex}`}>
-                                      <SectionLink
-                                        level={3}
-                                        href={getLinkHref(
-                                          index,
-                                          file2,
-                                          fileIndex
-                                        )}
-                                        onClick={e =>
-                                          onFileSelect(
-                                            e,
-                                            index,
-                                            file2,
-                                            fileIndex
-                                          )
-                                        }
-                                        isActive={currentFile === file2Path}
-                                      >
-                                        {this.getName(
-                                          file.labels,
-                                          file.files,
-                                          file.folder
-                                            ? file.folder
-                                            : section.folder,
-                                          file2
-                                        )}
-                                      </SectionLink>
-                                    </div>
-                                  )
+                                {subgroup.map((subFile, subIndex) => {
+                                  return this.renderSubgroup(index, section, file, fileIndex, subFile, subIndex)
                                 })}
                               </Collapse>
                             )}
