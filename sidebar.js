@@ -113,7 +113,6 @@ files
 
   renderSection = (section, sectionIndex) => {
     const { currentSection, getLinkHref, onSectionSelect } = this.props
-    // sidebar.map((section, index) => {
       const isSectionActive = currentSection === sectionIndex
       let sectionTitle = section.name
         ? section.name
@@ -142,7 +141,6 @@ files
           </Collapse>
         </div>
       )
-    // })
   }
 
   renderSectionFile = (sidebarIndex, file, fileIndex, section) => {
