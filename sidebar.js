@@ -147,7 +147,7 @@ export default class SidebarMenu extends React.Component {
 
   renderSectionFile = (sidebarIndex, file, fileIndex, section) => {
     const { getLinkHref, onFileSelect, currentFile } = this.props
-    const subgroup = file.files ? file.files : null
+    const subgroup = file.files || null
     const folderPath = Helper.getFullPath(file.folder, file.indexFile)
     const sectionPath = Helper.getFullPath(section.folder, file)
     let compare = file.folder && file.indexFile ? folderPath : sectionPath
@@ -157,8 +157,7 @@ export default class SidebarMenu extends React.Component {
       : this.getName(
           section.labels,
           section.files,
-          //TODO: replace ? : with ||
-          file.folder ? file.folder : section.folder,
+          file.folder || section.folder,
           file.indexFile ? file.indexFile : file
         )
     return (
@@ -182,7 +181,7 @@ export default class SidebarMenu extends React.Component {
               isFileActive ||
               Helper.isFileInArray(
                 subgroup,
-                file.folder ? file.folder : section.folder,
+                file.folder || section.folder,
                 currentFile
               )
                 ? 'true'
@@ -200,7 +199,7 @@ export default class SidebarMenu extends React.Component {
 
   renderSubgroup = (sidebarIndex, section, file, fileIndex, subFile, subIndex) => {
       const { getLinkHref, onFileSelect, currentFile } = this.props
-      const fileFolder = file.folder ? file.folder : section.folder
+      const fileFolder = file.folder || section.folder
       const subFilePath = Helper.getFullPath(fileFolder, subFile)
       return (
         <div key={`file-${fileIndex}-${subIndex}`}>
@@ -224,9 +223,7 @@ export default class SidebarMenu extends React.Component {
             {this.getName(
               file.labels,
               file.files,
-              file.folder
-                ? file.folder
-                : section.folder,
+              file.folder || section.folder,
               subFile
             )}
           </SectionLink>
