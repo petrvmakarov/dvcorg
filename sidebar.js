@@ -46,13 +46,9 @@ export default class SidebarMenu extends React.Component {
       names: [],
       loading: true
     }
-    // вызовы bind убрать функции переписать на стрелочные
-    this.collapse = this.collapse.bind(this)
-    this.getName = this.getName.bind(this)
-    this.getNamesArr = this.getNamesArr.bind(this)
   }
 
-  collapse() {
+  collapse = () => {
     // (возможно)Нет необходимости в вызове setTimeout
     // Пояснить цель вызова сеттаймаут
     setTimeout(function() {
@@ -66,7 +62,7 @@ files
  
 */
 
-  getNamesArr() {
+  getNamesArr = () => {
     let fileNamesArray = {},
       promises = [], //переменная не используется
       self = this // нет необходимости замыкания this
@@ -87,12 +83,12 @@ files
     })
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.collapse()
     this.getNamesArr()
   }
 
-  getName(labels = null, files = null, folder = null, indexFile = null) {
+  getName = (labels = null, files = null, folder = null, indexFile = null) => {
     let name
     if (labels && labels[indexFile]) {
       name = labels[indexFile]
@@ -103,7 +99,7 @@ files
     return name
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps = (nextProps) => {
     let con1 = nextProps.currentFile !== this.props.currentFile
     let con2 = nextProps.currentSection !== this.props.currentSection
     if (con1 || con2) {
@@ -232,7 +228,7 @@ files
     
   }
 
-  render() {
+  render = () => {
     let self = this
     function includes(array, folder) {
       let flag = false
