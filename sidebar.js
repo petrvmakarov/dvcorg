@@ -120,14 +120,7 @@ export default class SidebarMenu extends React.Component {
   renderSection = (section, sectionIndex) => {
     const { currentSection, getLinkHref, onSectionSelect } = this.props
     const isSectionActive = currentSection === sectionIndex
-    let sectionTitle = section.name
-      ? section.name
-      : this.getName(
-          section.labels,
-          section.files,
-          section.folder,
-          section.indexFile
-        )
+    let sectionTitle = section.name || this.getName(section.labels, section.files, section.folder, section.indexFile)
     return (
       <div key={sectionIndex}>
         <SectionLink
@@ -162,7 +155,7 @@ export default class SidebarMenu extends React.Component {
           section.labels,
           section.files,
           file.folder || section.folder,
-          file.indexFile ? file.indexFile : file
+          file.indexFile || file
         )
     return (
       <Fragment key={`file-${fileIndex}`}>
