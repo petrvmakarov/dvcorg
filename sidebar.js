@@ -11,6 +11,7 @@ const EXTENSION_SEPARATOR = '.'
 const FOLDER_SEPARATOR = '/'
 const SIDE_BAR_HTML_ID = 'sidebar-menu'
 
+// TODO: перенести в хелпер в отдельный файл 
 class Helper {
   static getParentFolder (file) {
     return file.folder ? file.folder : section.folder
@@ -123,6 +124,7 @@ export default class SidebarMenu extends React.Component {
     })
   }
 
+  // TODO: вынести в отдельный компонент
   renderSection = (section, sectionIndex) => {
     const { currentSection, getLinkHref, onSectionSelect } = this.props
     const isSectionActive = currentSection === sectionIndex
@@ -148,6 +150,7 @@ export default class SidebarMenu extends React.Component {
     )
   }
 
+  // TODO: вынести в отдельный компонент
   renderSectionFile = (sidebarIndex, file, fileIndex, section) => {
     const { getLinkHref, onFileSelect, currentFile } = this.props
     const subgroup = file.files || null
@@ -186,6 +189,7 @@ export default class SidebarMenu extends React.Component {
     )
   }
 
+  // TODO: вынести в отдельный компонент
   renderSubgroup = (sidebarIndex, section, file, fileIndex, subFile, subIndex) => {
       const { getLinkHref, onFileSelect, currentFile } = this.props
       const fileFolder = file.folder || section.folder
