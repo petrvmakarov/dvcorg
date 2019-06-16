@@ -72,7 +72,7 @@ export default class SidebarMenu extends React.Component {
     })
   }
 
-  //FIXME: Метод невозвращает результат в точку вызова, назначение метода не ясно
+  //FIXME: Метод не возвращает результат в точку вызова, назначение метода не ясно
   getNamesArr = () => {
     let fileNamesArray = {}
     sidebar.map(section => {
