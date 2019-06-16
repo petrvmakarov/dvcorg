@@ -6,6 +6,39 @@ import { media, OnlyDesktop } from '../../styles'
 import sidebar from '../sidebar'
 import startCase from 'lodash.startcase'
 import Preloader from '../../Preloader/Preloader'
+
+const FOLDER_SEPARATOR = '/'
+
+class Helper {
+  static getParentFolder (file) {
+    return file.folder ? file.folder : section.folder
+  }
+
+  static extractFilename(file) {
+    typeof file === 'string' ? file : file.indexFile
+  }
+
+  static removeExtensionFromFileName(filename) {
+    //return filename.slice(0, -3)
+    return filename.split('.').slice(0, -1).join('.')
+  }
+
+  static hasChildrenFiles(file) {
+    return file.files && file.files.length > 0
+  }
+
+  static getFullPath(folder, file) {
+    return `${folder}${FOLDER_SEPARATOR}${file}`
+  }
+
+  static fillFilesArray(file, arr) {
+    const folder = Helper.getParentFolder(file)
+    const filename = Helper.extractFilename(file)
+    const path = Helper.getFullPath(folder, filename)
+    arr[path] = startCase(Helper.removeExtensionFromFileName(filename))
+  }
+}
+
 export default class SidebarMenu extends React.Component {
   constructor(props) {
     super(props)
@@ -13,36 +46,41 @@ export default class SidebarMenu extends React.Component {
       names: [],
       loading: true
     }
+    // вызовы bind убрать функции переписать на стрелочные
     this.collapse = this.collapse.bind(this)
     this.getName = this.getName.bind(this)
     this.getNamesArr = this.getNamesArr.bind(this)
   }
 
   collapse() {
+    // (возможно)Нет необходимости в вызове setTimeout
+    // Пояснить цель вызова сеттаймаут
     setTimeout(function() {
       $('[data-open=true]').slideDown()
       $('[data-open=false]').slideUp()
     })
   }
+/*
+files
+ Node<string|folder>[]
+ 
+*/
 
   getNamesArr() {
-    let arr = {},
-      promises = [],
-      self = this
+    let fileNamesArray = {},
+      promises = [], //переменная не используется
+      self = this // нет необходимости замыкания this
     sidebar.map(section => {
       section.files.map(file => {
-        let folder = file.folder ? file.folder : section.folder
-        let filename = typeof file === 'string' ? file : file.indexFile
-        arr[folder + '/' + filename] = startCase(filename.slice(0, -3))
-        if (file.files && file.files.length > 0) {
-          file.files.map(file2 => {
-            let folder = file.folder ? file.folder : section.folder
-            let filename = file2
-            arr[folder + '/' + filename] = startCase(filename.slice(0, -3))
+        Helper.fillFilesArray(file, fileNamesArray)
+        if (Helper.hasChildrenFiles(file)) {
+          file.files.map(childFile => {
+            Helper.fillFilesArray(childFile, fileNamesArray)
           })
         }
       })
     })
+    // заменить self на this
     self.setState({
       names: arr,
       loading: false
@@ -59,7 +97,8 @@ export default class SidebarMenu extends React.Component {
     if (labels && labels[indexFile]) {
       name = labels[indexFile]
     } else {
-      name = this.state.names[folder + '/' + indexFile]
+      const path = Hepler.getFullPath(folder, indexFile)
+      name = this.state.names[path]
     }
     return name
   }
@@ -77,7 +116,8 @@ export default class SidebarMenu extends React.Component {
     function includes(array, folder) {
       let flag = false
       array.map(elem => {
-        if (folder + '/' + elem === self.props.currentFile) {
+        const path = Hepler.getFullPath(folder, elem)
+        if (path === self.props.currentFile) {
           flag = true
         }
       })
@@ -120,10 +160,9 @@ export default class SidebarMenu extends React.Component {
                     {section.files &&
                       section.files.map((file, fileIndex) => {
                         const subgroup = file.files ? file.files : null
-                        let compare =
-                          file.folder && file.indexFile
-                            ? file.folder + '/' + file.indexFile
-                            : section.folder + '/' + file
+                        const folderPath = Hepler.getFullPath(file.folder, file.indexFile)
+                        const sectionPath = Hepler.getFullPath(section.folder, file)
+                        let compare = file.folder && file.indexFile ? folderPath : sectionPath
                         const isFileActive = currentFile === compare
                         let FileOrSubsectionTitle = file.name
                           ? file.name
@@ -161,12 +200,8 @@ export default class SidebarMenu extends React.Component {
                                 }
                               >
                                 {subgroup.map((file2, subIndex) => {
-                                  let compare =
-                                    (file.folder
-                                      ? file.folder
-                                      : section.folder) +
-                                    '/' +
-                                    file2
+                                  const fileFolder = file.folder ? file.folder : section.folder
+                                  const file2Path = Helper.getFullPath(fileFolder, file2)
                                   return (
                                     <div key={`file-${fileIndex}-${subIndex}`}>
                                       <SectionLink
@@ -184,7 +219,7 @@ export default class SidebarMenu extends React.Component {
                                             fileIndex
                                           )
                                         }
-                                        isActive={currentFile === compare}
+                                        isActive={currentFile === file2Path}
                                       >
                                         {this.getName(
                                           file.labels,
@@ -320,3 +355,15 @@ const SideFooter = styled.div`
   margin-top: 30px;
   padding-bottom: 30px;
 `
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
