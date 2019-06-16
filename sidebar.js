@@ -107,6 +107,13 @@ files
     }
   }
 
+  renderSections = () => {
+    const { sidebar } = this.props
+    return sidebar.map((section, index) => {
+      return this.renderSection(section, index)
+    })
+  }
+
   renderSection = (section, sectionIndex) => {
     const { currentSection, getLinkHref, onSectionSelect } = this.props
     const isSectionActive = currentSection === sectionIndex
@@ -240,14 +247,11 @@ files
       })
       return flag
     }
-    const { sidebar } = this.props
     return !this.state.loading ? (
       <Menu id="sidebar-menu">
         <Sections>
           <SectionLinks>
-            {sidebar.map((section, index) => {
-              return this.renderSection(section, index)
-            })}
+            {this.renderSections()}
           </SectionLinks>
         </Sections>
         <OnlyDesktop>
