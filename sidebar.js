@@ -157,6 +157,7 @@ export default class SidebarMenu extends React.Component {
           file.folder || section.folder,
           file.indexFile || file
         )
+    const openAttr = Helper.isFileInArray(subgroup, file.folder || section.folder, currentFile) ? 'true' : 'false'
     return (
       <Fragment key={`file-${fileIndex}`}>
         <div>
@@ -174,16 +175,7 @@ export default class SidebarMenu extends React.Component {
         {subgroup && (
           <Collapse
             data-flag={'first'}
-            data-open={
-              isFileActive ||
-              Helper.isFileInArray(
-                subgroup,
-                file.folder || section.folder,
-                currentFile
-              )
-                ? 'true'
-                : 'false'
-            }
+            data-open={openAttr}
           >
             {subgroup.map((subFile, subIndex) => {
               return this.renderSubgroup(sidebarIndex, section, file, fileIndex, subFile, subIndex)
