@@ -152,7 +152,7 @@ export default class SidebarMenu extends React.Component {
     const subgroup = file.files || null
     const folderPath = Helper.getFullPath(file.folder, file.indexFile)
     const sectionPath = Helper.getFullPath(section.folder, file)
-    let compare = file.folder && file.indexFile ? folderPath : sectionPath
+    const compare = file.folder && file.indexFile ? folderPath : sectionPath
     const isFileActive = currentFile === compare
     const FileOrSubsectionTitle = file.name || this.getName(section.labels, section.files, file.folder || section.folder, file.indexFile || file)
     const isOpen = Helper.isFileInArray(subgroup, file.folder || section.folder, currentFile)
