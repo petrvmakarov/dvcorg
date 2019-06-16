@@ -62,16 +62,9 @@ export default class SidebarMenu extends React.Component {
       $('[data-open=false]').slideUp()
     })
   }
-/*
-files
- Node<string|folder>[]
- 
-*/
 
   getNamesArr = () => {
-    let fileNamesArray = {},
-      promises = [], //переменная не используется
-      self = this // нет необходимости замыкания this
+    let fileNamesArray = {}
     sidebar.map(section => {
       section.files.map(file => {
         Helper.fillFilesArray(file, fileNamesArray)
@@ -82,8 +75,7 @@ files
         }
       })
     })
-    // заменить self на this
-    self.setState({
+    this.setState({
       names: arr,
       loading: false
     })
