@@ -37,17 +37,17 @@ class Helper {
     const path = Helper.getFullPath(folder, filename)
     arr[path] = startCase(Helper.removeExtensionFromFileName(filename))
   }
-}
 
-function includes(array, folder) {
-  let flag = false
-  array.map(elem => {
-    const path = Helper.getFullPath(folder, elem)
-    if (path === self.props.currentFile) {
-      flag = true
-    }
-  })
-  return flag
+  static includes(array, folder) {
+    let flag = false
+    array.map(elem => {
+      const path = Helper.getFullPath(folder, elem)
+      if (path === self.props.currentFile) {
+        flag = true
+      }
+    })
+    return flag
+  }
 }
 
 export default class SidebarMenu extends React.Component {
@@ -192,7 +192,7 @@ files
             data-flag={'first'}
             data-open={
               isFileActive ||
-              includes(
+              Helper.includes(
                 subgroup,
                 file.folder ? file.folder : section.folder
               )
