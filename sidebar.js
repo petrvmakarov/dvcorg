@@ -40,8 +40,12 @@ class Helper {
   }
 
   static isFileInArray(array, folder, currentFile) {
-    const index = array.findIndex(elem => Helper.getFullPath(folder, elem) === currentFile)
-    return index >= 0
+    let flag = false
+    array.forEach(elem => {
+      const path = Helper.getFullPath(folder, elem)
+      flag = flag || path === currentFile
+    })
+    return flag
   }
 }
 
