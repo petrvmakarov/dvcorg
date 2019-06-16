@@ -39,14 +39,8 @@ class Helper {
   }
 
   static includes(array, folder, currentFile) {
-    let flag = false
-    array.map(elem => {
-      const path = Helper.getFullPath(folder, elem)
-      if (path === currentFile) {
-        flag = true
-      }
-    })
-    return flag
+    const index = array.findIndex(elem => Helper.getFullPath(folder, elem) === currentFile)
+    return index >= 0
   }
 }
 
