@@ -38,11 +38,11 @@ class Helper {
     arr[path] = startCase(Helper.removeExtensionFromFileName(filename))
   }
 
-  static includes(array, folder) {
+  static includes(array, folder, currentFile) {
     let flag = false
     array.map(elem => {
       const path = Helper.getFullPath(folder, elem)
-      if (path === self.props.currentFile) {
+      if (path === currentFile) {
         flag = true
       }
     })
@@ -158,7 +158,7 @@ files
   }
 
   renderSectionFile = (sidebarIndex, file, fileIndex, section) => {
-    const { getLinkHref, onFileSelect } = this.props
+    const { getLinkHref, onFileSelect, currentFile } = this.props
     const subgroup = file.files ? file.files : null
     const folderPath = Helper.getFullPath(file.folder, file.indexFile)
     const sectionPath = Helper.getFullPath(section.folder, file)
@@ -194,7 +194,8 @@ files
               isFileActive ||
               Helper.includes(
                 subgroup,
-                file.folder ? file.folder : section.folder
+                file.folder ? file.folder : section.folder,
+                currentFile
               )
                 ? 'true'
                 : 'false'
