@@ -111,6 +111,40 @@ files
     }
   }
 
+  renderSection = (section, sectionIndex) => {
+    const { currentSection, getLinkHref, onSectionSelect } = this.props
+    // sidebar.map((section, index) => {
+      const isSectionActive = currentSection === sectionIndex
+      let sectionTitle = section.name
+        ? section.name
+        : this.getName(
+            section.labels,
+            section.files,
+            section.folder,
+            section.indexFile
+          )
+      return (
+        <div key={sectionIndex}>
+          <SectionLink
+            level={1}
+            href={getLinkHref(sectionIndex)}
+            onClick={e => onSectionSelect(e, sectionIndex)}
+            className={isSectionActive ? 'docSearch-lvl0' : ''}
+            isActive={isSectionActive}
+          >
+            {sectionTitle}
+          </SectionLink>
+          <Collapse data-open={isSectionActive ? 'true' : 'false'}>
+            {section.files &&
+              section.files.map((file, fileIndex) => {
+                return this.renderSectionFile(sectionIndex, file, fileIndex, section)
+              })}
+          </Collapse>
+        </div>
+      )
+    // })
+  }
+
   renderSectionFile = (sidebarIndex, file, fileIndex, section) => {
     const { getLinkHref, onFileSelect } = this.props
     const subgroup = file.files ? file.files : null
@@ -212,47 +246,13 @@ files
       })
       return flag
     }
-    const {
-      sidebar,
-      currentSection,
-      currentFile,
-      onSectionSelect,
-      onFileSelect,
-      getLinkHref
-    } = this.props
+    const { sidebar } = this.props
     return !this.state.loading ? (
       <Menu id="sidebar-menu">
         <Sections>
           <SectionLinks>
             {sidebar.map((section, index) => {
-              const isSectionActive = currentSection === index
-              let sectionTitle = section.name
-                ? section.name
-                : this.getName(
-                    section.labels,
-                    section.files,
-                    section.folder,
-                    section.indexFile
-                  )
-              return (
-                <div key={index}>
-                  <SectionLink
-                    level={1}
-                    href={getLinkHref(index)}
-                    onClick={e => onSectionSelect(e, index)}
-                    className={isSectionActive ? 'docSearch-lvl0' : ''}
-                    isActive={isSectionActive}
-                  >
-                    {sectionTitle}
-                  </SectionLink>
-                  <Collapse data-open={isSectionActive ? 'true' : 'false'}>
-                    {section.files &&
-                      section.files.map((file, fileIndex) => {
-                        return this.renderSectionFile(index, file, fileIndex, section)
-                      })}
-                  </Collapse>
-                </div>
-              )
+              return this.renderSection(section, index)
             })}
           </SectionLinks>
         </Sections>
