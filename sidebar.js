@@ -8,6 +8,7 @@ import startCase from 'lodash.startcase'
 import Preloader from '../../Preloader/Preloader'
 
 const FOLDER_SEPARATOR = '/'
+const SIDE_BAR_HTML_ID = 'sidebar-menu'
 
 class Helper {
   static getParentFolder (file) {
@@ -243,7 +244,7 @@ files
 
   renderLoadingMenu = () => {
     return (
-      <Menu id="sidebar-menu">
+      <Menu id={SIDE_BAR_HTML_ID }>
         <div style={PreloaderContainer}>
           <Preloader size={24} />
         </div>
@@ -253,7 +254,7 @@ files
   
   renderLoadedMenu = () => {
     return (
-      <Menu id="sidebar-menu">
+      <Menu id={SIDE_BAR_HTML_ID}>
         <Sections>
           <SectionLinks>
             {this.renderSections()}
