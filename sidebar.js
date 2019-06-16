@@ -38,7 +38,7 @@ class Helper {
     arr[path] = startCase(Helper.removeExtensionFromFileName(filename))
   }
 
-  static includes(array, folder, currentFile) {
+  static isFileInArray(array, folder, currentFile) {
     const index = array.findIndex(elem => Helper.getFullPath(folder, elem) === currentFile)
     return index >= 0
   }
@@ -186,7 +186,7 @@ files
             data-flag={'first'}
             data-open={
               isFileActive ||
-              Helper.includes(
+              Helper.isFileInArray(
                 subgroup,
                 file.folder ? file.folder : section.folder,
                 currentFile
