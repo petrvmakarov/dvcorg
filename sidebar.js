@@ -244,15 +244,7 @@ files
   renderLoadingMenu = () => {
     return (
       <Menu id="sidebar-menu">
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            flexDirection: 'column',
-            margin: '44px 34px 0 0'
-          }}
-        >
+        <div style={PreloaderContainer}>
           <Preloader size={24} />
         </div>
       </Menu>
@@ -281,6 +273,13 @@ files
     const { loading } = this.state
     return loading ? this.renderLoadingMenu() : this.renderLoadedMenu()
   }
+}
+const PreloaderContainer = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  flexDirection: 'column',
+  margin: '44px 34px 0 0'
 }
 const Menu = styled.div`
   position: sticky;
