@@ -7,6 +7,7 @@ import sidebar from '../sidebar'
 import startCase from 'lodash.startcase'
 import Preloader from '../../Preloader/Preloader'
 
+const EXTENSION_SEPARATOR = '.'
 const FOLDER_SEPARATOR = '/'
 const SIDE_BAR_HTML_ID = 'sidebar-menu'
 
@@ -21,7 +22,7 @@ class Helper {
 
   static removeExtensionFromFileName(filename) {
     //return filename.slice(0, -3)
-    return filename.split('.').slice(0, -1).join('.')
+    return filename.split(EXTENSION_SEPARATOR).slice(0, -1).join(EXTENSION_SEPARATOR)
   }
 
   static hasChildrenFiles(file) {
