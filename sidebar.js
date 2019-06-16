@@ -47,6 +47,11 @@ class Helper {
     })
     return flag
   }
+
+  static toBooleanString(value) {
+    // return !!value ? 'true' : 'false'
+    return (!!value).toString()
+  }
 }
 
 export default class SidebarMenu extends React.Component {
@@ -132,7 +137,7 @@ export default class SidebarMenu extends React.Component {
         >
           {sectionTitle}
         </SectionLink>
-        <Collapse data-open={isSectionActive ? 'true' : 'false'}>
+        <Collapse data-open={Helper.toBooleanString(isSectionActive)}>
           {section.files &&
             section.files.map((file, fileIndex) => {
               return this.renderSectionFile(sectionIndex, file, fileIndex, section)
@@ -157,7 +162,8 @@ export default class SidebarMenu extends React.Component {
           file.folder || section.folder,
           file.indexFile || file
         )
-    const openAttr = Helper.isFileInArray(subgroup, file.folder || section.folder, currentFile) ? 'true' : 'false'
+    const isOpen = Helper.isFileInArray(subgroup, file.folder || section.folder, currentFile)
+    const openAttr = Helper.toBooleanString(isOpen)
     return (
       <Fragment key={`file-${fileIndex}`}>
         <div>
