@@ -264,7 +264,6 @@ export default class SidebarMenu extends React.Component {
   }
 
   render = () => {
-    let self = this
     const { loading } = this.state
     return loading ? this.renderLoadingMenu() : this.renderLoadedMenu()
   }
