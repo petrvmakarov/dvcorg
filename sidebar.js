@@ -112,57 +112,55 @@ files
   }
 
   renderSectionFile = (sidebarIndex, file, fileIndex, section) => {
-    //section.files.map((file, fileIndex) => {
-      const { getLinkHref, onFileSelect } = this.props
-      const subgroup = file.files ? file.files : null
-      const folderPath = Helper.getFullPath(file.folder, file.indexFile)
-      const sectionPath = Helper.getFullPath(section.folder, file)
-      let compare = file.folder && file.indexFile ? folderPath : sectionPath
-      const isFileActive = currentFile === compare
-      let FileOrSubsectionTitle = file.name
-        ? file.name
-        : this.getName(
-            section.labels,
-            section.files,
-            //TODO: replace ? : with ||
-            file.folder ? file.folder : section.folder,
-            file.indexFile ? file.indexFile : file
-          )
-      return (
-        <Fragment key={`file-${fileIndex}`}>
-          <div>
-            <SectionLink
-              level={2}
-              href={getLinkHref(sidebarIndex, null, file.indexFile)}
-              onClick={e =>
-                onFileSelect(e, sidebarIndex, null, fileIndex)
-              }
-              isActive={isFileActive}
-            >
-              {FileOrSubsectionTitle}
-            </SectionLink>
-          </div>
-          {subgroup && (
-            <Collapse
-              data-flag={'first'}
-              data-open={
-                isFileActive ||
-                includes(
-                  subgroup,
-                  file.folder ? file.folder : section.folder
-                )
-                  ? 'true'
-                  : 'false'
-              }
-            >
-              {subgroup.map((subFile, subIndex) => {
-                return this.renderSubgroup(sidebarIndex, section, file, fileIndex, subFile, subIndex)
-              })}
-            </Collapse>
-          )}
-        </Fragment>
-      )
-    //})
+    const { getLinkHref, onFileSelect } = this.props
+    const subgroup = file.files ? file.files : null
+    const folderPath = Helper.getFullPath(file.folder, file.indexFile)
+    const sectionPath = Helper.getFullPath(section.folder, file)
+    let compare = file.folder && file.indexFile ? folderPath : sectionPath
+    const isFileActive = currentFile === compare
+    let FileOrSubsectionTitle = file.name
+      ? file.name
+      : this.getName(
+          section.labels,
+          section.files,
+          //TODO: replace ? : with ||
+          file.folder ? file.folder : section.folder,
+          file.indexFile ? file.indexFile : file
+        )
+    return (
+      <Fragment key={`file-${fileIndex}`}>
+        <div>
+          <SectionLink
+            level={2}
+            href={getLinkHref(sidebarIndex, null, file.indexFile)}
+            onClick={e =>
+              onFileSelect(e, sidebarIndex, null, fileIndex)
+            }
+            isActive={isFileActive}
+          >
+            {FileOrSubsectionTitle}
+          </SectionLink>
+        </div>
+        {subgroup && (
+          <Collapse
+            data-flag={'first'}
+            data-open={
+              isFileActive ||
+              includes(
+                subgroup,
+                file.folder ? file.folder : section.folder
+              )
+                ? 'true'
+                : 'false'
+            }
+          >
+            {subgroup.map((subFile, subIndex) => {
+              return this.renderSubgroup(sidebarIndex, section, file, fileIndex, subFile, subIndex)
+            })}
+          </Collapse>
+        )}
+      </Fragment>
+    )
   }
 
   renderSubgroup = (sidebarIndex, section, file, fileIndex, subFile, subIndex) => {
