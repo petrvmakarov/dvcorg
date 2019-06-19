@@ -74,21 +74,20 @@ export default class SidebarMenu extends React.Component {
     })
   }
 
-  //FIXME: Метод не возвращает результат в точку вызова, назначение метода не ясно
   getNamesArr = () => {
-    let fileNamesArray = {}
+    let names = {}
     sidebar.map(section => {
       section.files.map(file => {
-        Helper.fillFilesArray(file, section, fileNamesArray)
+        Helper.fillFilesArray(file, section, names)
         if (Helper.hasChildrenFiles(file)) {
           file.files.map(childFile => {
-            Helper.fillFilesArray(childFile, fileNamesArray)
+            Helper.fillFilesArray(childFile, names)
           })
         }
       })
     })
     this.setState({
-      names: fileNamesArray,
+      names,
       loading: false
     })
   }
