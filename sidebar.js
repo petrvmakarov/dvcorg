@@ -13,7 +13,7 @@ const SIDE_BAR_HTML_ID = 'sidebar-menu'
 
 // TODO: перенести в хелпер в отдельный файл 
 class Helper {
-  static getParentFolder (file) {
+  static getParentFolder (file, section) {
     return file.folder ? file.folder : section.folder
   }
 
@@ -34,8 +34,8 @@ class Helper {
     return [folder, file].join(FOLDER_SEPARATOR)
   }
 
-  static fillFilesArray(file, arr) {
-    const folder = Helper.getParentFolder(file)
+  static fillFilesArray(file, section, arr) {
+    const folder = Helper.getParentFolder(file, section)
     const filename = Helper.extractFilename(file)
     const path = Helper.getFullPath(folder, filename)
     arr[path] = startCase(Helper.removeExtensionFromFileName(filename))
@@ -79,7 +79,7 @@ export default class SidebarMenu extends React.Component {
     let fileNamesArray = {}
     sidebar.map(section => {
       section.files.map(file => {
-        Helper.fillFilesArray(file, fileNamesArray)
+        Helper.fillFilesArray(file, section, fileNamesArray)
         if (Helper.hasChildrenFiles(file)) {
           file.files.map(childFile => {
             Helper.fillFilesArray(childFile, fileNamesArray)
@@ -88,7 +88,7 @@ export default class SidebarMenu extends React.Component {
       })
     })
     this.setState({
-      names: arr,
+      names: fileNamesArray,
       loading: false
     })
   }
